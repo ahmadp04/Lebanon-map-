@@ -1,0 +1,142 @@
+{
+ "updatedAt": "2026-09-27T11:55:00Z",
+ "note": "Seeded from the shared summary map",
+ "days": {
+  "2026-09-27": {
+   "takeaways": [
+    "The overall situation remains volatile; there have been reports of activity in Beirut's southern suburbs as well, even though today's listed strikes are farther south."
+   ],
+   "totalAlerts": 82
+  }
+ },
+ "events": [
+  {
+   "date": "2026-09-27",
+   "lat": 33.19,
+   "lng": 35.2,
+   "note": "Coast south of Tyre",
+   "place": "Al-Mansouri",
+   "source": "Shared summary map",
+   "type": "air",
+   "id": "2026-09-27-air-al-mansouri"
+  },
+  {
+   "date": "2026-09-27",
+   "lat": 33.155,
+   "lng": 35.437,
+   "place": "Hadatha",
+   "source": "Shared summary map",
+   "type": "air",
+   "id": "2026-09-27-air-hadatha"
+  },
+  {
+   "date": "2026-09-27",
+   "lat": 33.36,
+   "lng": 35.506,
+   "place": "Kfar Tebnit",
+   "source": "Shared summary map",
+   "type": "air",
+   "id": "2026-09-27-air-kfar-tebnit"
+  },
+  {
+   "date": "2026-09-27",
+   "lat": 33.328,
+   "lng": 35.612,
+   "place": "Al-Khiam",
+   "source": "Shared summary map",
+   "type": "air",
+   "id": "2026-09-27-air-khiam"
+  },
+  {
+   "date": "2026-09-27",
+   "lat": 33.17,
+   "lng": 35.524,
+   "place": "Mays al-Jabal",
+   "source": "Shared summary map",
+   "type": "air",
+   "id": "2026-09-27-air-mays-al-jabal"
+  },
+  {
+   "date": "2026-09-27",
+   "lat": 33.385,
+   "lng": 35.5,
+   "place": "Nabatieh al-Fawqa",
+   "source": "Shared summary map",
+   "type": "air",
+   "id": "2026-09-27-air-nabatieh-al-fawqa"
+  },
+  {
+   "date": "2026-09-27",
+   "lat": 33.117,
+   "lng": 35.467,
+   "place": "Aitaroun",
+   "source": "Shared summary map",
+   "type": "artillery",
+   "id": "2026-09-27-art-aitaroun"
+  },
+  {
+   "date": "2026-09-27",
+   "lat": 33.19,
+   "lng": 35.2,
+   "note": "Coast south of Tyre",
+   "place": "Al-Mansouri",
+   "source": "Shared summary map",
+   "type": "artillery",
+   "id": "2026-09-27-art-al-mansouri"
+  },
+  {
+   "date": "2026-09-27",
+   "lat": 33.169,
+   "lng": 35.448,
+   "place": "Baraachit",
+   "source": "Shared summary map",
+   "type": "artillery",
+   "id": "2026-09-27-art-baraachit"
+  },
+  {
+   "date": "2026-09-27",
+   "lat": 33.175,
+   "lng": 35.476,
+   "place": "Beit Yahoun",
+   "source": "Shared summary map",
+   "type": "artillery",
+   "id": "2026-09-27-art-beit-yahoun"
+  },
+  {
+   "date": "2026-09-27",
+   "lat": 33.155,
+   "lng": 35.437,
+   "place": "Hadatha",
+   "source": "Shared summary map",
+   "type": "artillery",
+   "id": "2026-09-27-art-hadatha"
+  },
+  {
+   "date": "2026-09-27",
+   "lat": 33.379,
+   "lng": 35.516,
+   "place": "Kfar Roummane",
+   "source": "Shared summary map",
+   "type": "artillery",
+   "id": "2026-09-27-art-kfar-roummane"
+  },
+  {
+   "date": "2026-09-27",
+   "lat": 33.328,
+   "lng": 35.554,
+   "place": "Zawtar al-Sharqiya",
+   "source": "Shared summary map",
+   "type": "artillery",
+   "id": "2026-09-27-art-zawtar-al-sharqiya"
+  },
+  {
+   "date": "2026-09-27",
+   "lat": 33.203,
+   "lng": 35.305,
+   "place": "Zebqine",
+   "source": "Shared summary map",
+   "type": "artillery",
+   "id": "2026-09-27-art-zebqine"
+  }
+ ]
+}
