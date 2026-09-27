@@ -18,7 +18,8 @@
    "place": "Al-Mansouri",
    "source": "Shared summary map",
    "type": "air",
-   "id": "2026-09-27-air-al-mansouri"
+   "id": "2026-09-27-air-al-mansouri",
+   "addedAt": "2026-09-27T11:47:00Z"
   },
   {
    "date": "2026-09-27",
@@ -27,7 +28,8 @@
    "place": "Hadatha",
    "source": "Shared summary map",
    "type": "air",
-   "id": "2026-09-27-air-hadatha"
+   "id": "2026-09-27-air-hadatha",
+   "addedAt": "2026-09-27T11:47:00Z"
   },
   {
    "date": "2026-09-27",
@@ -36,7 +38,8 @@
    "place": "Kfar Tebnit",
    "source": "Shared summary map",
    "type": "air",
-   "id": "2026-09-27-air-kfar-tebnit"
+   "id": "2026-09-27-air-kfar-tebnit",
+   "addedAt": "2026-09-27T11:47:00Z"
   },
   {
    "date": "2026-09-27",
@@ -45,7 +48,8 @@
    "place": "Al-Khiam",
    "source": "Shared summary map",
    "type": "air",
-   "id": "2026-09-27-air-khiam"
+   "id": "2026-09-27-air-khiam",
+   "addedAt": "2026-09-27T11:47:00Z"
   },
   {
    "date": "2026-09-27",
@@ -54,7 +58,8 @@
    "place": "Mays al-Jabal",
    "source": "Shared summary map",
    "type": "air",
-   "id": "2026-09-27-air-mays-al-jabal"
+   "id": "2026-09-27-air-mays-al-jabal",
+   "addedAt": "2026-09-27T11:47:00Z"
   },
   {
    "date": "2026-09-27",
@@ -63,7 +68,8 @@
    "place": "Nabatieh al-Fawqa",
    "source": "Shared summary map",
    "type": "air",
-   "id": "2026-09-27-air-nabatieh-al-fawqa"
+   "id": "2026-09-27-air-nabatieh-al-fawqa",
+   "addedAt": "2026-09-27T11:47:00Z"
   },
   {
    "date": "2026-09-27",
@@ -72,7 +78,8 @@
    "place": "Aitaroun",
    "source": "Shared summary map",
    "type": "artillery",
-   "id": "2026-09-27-art-aitaroun"
+   "id": "2026-09-27-art-aitaroun",
+   "addedAt": "2026-09-27T11:47:00Z"
   },
   {
    "date": "2026-09-27",
@@ -82,7 +89,8 @@
    "place": "Al-Mansouri",
    "source": "Shared summary map",
    "type": "artillery",
-   "id": "2026-09-27-art-al-mansouri"
+   "id": "2026-09-27-art-al-mansouri",
+   "addedAt": "2026-09-27T11:47:00Z"
   },
   {
    "date": "2026-09-27",
@@ -91,7 +99,8 @@
    "place": "Baraachit",
    "source": "Shared summary map",
    "type": "artillery",
-   "id": "2026-09-27-art-baraachit"
+   "id": "2026-09-27-art-baraachit",
+   "addedAt": "2026-09-27T11:47:00Z"
   },
   {
    "date": "2026-09-27",
@@ -100,7 +109,8 @@
    "place": "Beit Yahoun",
    "source": "Shared summary map",
    "type": "artillery",
-   "id": "2026-09-27-art-beit-yahoun"
+   "id": "2026-09-27-art-beit-yahoun",
+   "addedAt": "2026-09-27T11:47:00Z"
   },
   {
    "date": "2026-09-27",
@@ -109,7 +119,8 @@
    "place": "Hadatha",
    "source": "Shared summary map",
    "type": "artillery",
-   "id": "2026-09-27-art-hadatha"
+   "id": "2026-09-27-art-hadatha",
+   "addedAt": "2026-09-27T11:47:00Z"
   },
   {
    "date": "2026-09-27",
@@ -118,7 +129,8 @@
    "place": "Kfar Roummane",
    "source": "Shared summary map",
    "type": "artillery",
-   "id": "2026-09-27-art-kfar-roummane"
+   "id": "2026-09-27-art-kfar-roummane",
+   "addedAt": "2026-09-27T11:47:00Z"
   },
   {
    "date": "2026-09-27",
@@ -127,7 +139,8 @@
    "place": "Zawtar al-Sharqiya",
    "source": "Shared summary map",
    "type": "artillery",
-   "id": "2026-09-27-art-zawtar-al-sharqiya"
+   "id": "2026-09-27-art-zawtar-al-sharqiya",
+   "addedAt": "2026-09-27T11:47:00Z"
   },
   {
    "date": "2026-09-27",
@@ -136,7 +149,8 @@
    "place": "Zebqine",
    "source": "Shared summary map",
    "type": "artillery",
-   "id": "2026-09-27-art-zebqine"
+   "id": "2026-09-27-art-zebqine",
+   "addedAt": "2026-09-27T11:47:00Z"
   }
  ]
 }

@@ -137,6 +137,36 @@ ol.evlist li.enter{animation:slidein .6s ease-out both}
 .srcs{font-size:11.5px;color:var(--muted);line-height:1.5}
 .srcs a{color:#7fb4ff}
 
+.mk.old{opacity:.55}.mk.old .p{display:none}.mk.old .core{width:14px;height:14px;inset:2px;border-width:1.5px}
+.mk.old.dim{opacity:.2}
+.me-ic{width:18px;height:18px;border-radius:50%;background:#2f8cff;border:3px solid #fff;box-shadow:0 0 0 6px #2f8cff44,0 0 10px #000a}
+.city-ic.r2{width:8px;height:8px}.city-ic.r3{width:6px;height:6px;border-width:1.5px}
+.controls{display:grid;gap:8px}
+.ctlrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)}
+.ctlrow select{background:var(--panel-2);color:var(--ink);border:1px solid var(--line-2);border-radius:6px;padding:5px 6px;font:500 12px var(--body)}
+.btn{all:unset;display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:8px;background:var(--panel-2);border:1px solid var(--line-2);color:var(--ink);font-weight:600;font-size:12.5px;cursor:pointer}
+.btn:focus-visible{outline:2px solid var(--bey)}
+.btn[aria-pressed="true"]{background:#3a1218;border-color:var(--air);color:#fff}
+.btn.me[aria-pressed="true"]{background:#0f2a4d;border-color:var(--bey)}
+.feed{list-style:none;margin:0;padding:0;display:grid;gap:2px;max-height:300px;overflow-y:auto}
+.feed button{all:unset;box-sizing:border-box;width:100%;display:grid;grid-template-columns:10px 1fr auto;gap:10px;align-items:center;padding:7px 8px;border-radius:6px;cursor:pointer}
+.feed button:hover{background:#1a2c44}
+.feed button:focus-visible{outline:2px solid var(--bey)}
+.feed .fdot{width:10px;height:10px;border-radius:50%}
+.feed .fn{font-weight:600;font-size:14px}
+.feed .fn small{display:block;font-weight:400;font-size:11.5px;color:var(--muted)}
+.feed .ft{font-family:var(--mono);font-size:11.5px;color:var(--muted);text-align:right;white-space:nowrap}
+.feed li.recent .ft{color:#ff8a8a}
+.feed li.recent .fdot{box-shadow:0 0 0 3px #ff4d4d33}
+.feed li.flash{animation:flash 2.4s ease-out}
+@keyframes flash{0%,30%{background:#4a1820}100%{background:transparent}}
+.feed .tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:#ff8a8a;border:1px solid #ff4d4d66;border-radius:4px;padding:0 4px;margin-left:6px;vertical-align:1px}
+.hours{display:grid;grid-template-columns:repeat(24,1fr);gap:2px;align-items:end;height:70px;margin-top:4px}
+.hours i{display:block;background:#2a3c55;border-radius:2px 2px 0 0;min-height:2px;position:relative}
+.hours i.on{background:linear-gradient(#ff4d4d,#b8323a)}
+.hours i.now{outline:1px solid #fff6}
+.hlabels{display:grid;grid-template-columns:repeat(4,1fr);font:10px var(--mono);color:var(--faint);margin-top:3px}
+.hlabels span:last-child{text-align:right}
 @media (max-width:860px){
   .app{grid-template-columns:1fr;grid-template-rows:64vh auto;height:auto}
   .panel{border-left:0;border-top:1px solid var(--line);overflow:visible}
@@ -167,8 +197,8 @@ ol.evlist li.enter{animation:slidein .6s ease-out both}
         <button type="button" data-type="air" aria-pressed="true"><span class="dot" style="background:var(--air)"></span>Aerial attack (<span data-c="air">0</span>)</button>
         <button type="button" data-type="artillery" aria-pressed="true"><span class="dot" style="background:var(--art)"></span>Artillery bombardment (<span data-c="artillery">0</span>)</button>
         <button type="button" class="opt" data-type="other" aria-pressed="true"><span class="dot" style="background:var(--other)"></span>Other reported activity (<span data-c="other">0</span>)</button>
-        <button type="button" class="opt" data-layer="ranges" aria-pressed="true"><span class="dot" style="background:var(--bey)"></span>Distance rings from BEY airport</button>
-        <button type="button" class="opt" data-layer="ring" aria-pressed="true"><span class="dash-dot"></span>Approximate area of activity</button>
+        <button type="button" class="opt" data-layer="ranges" aria-pressed="false"><span class="dot" style="background:var(--bey)"></span>Distance rings from BEY airport</button>
+        <button type="button" class="opt" data-layer="ring" aria-pressed="true"><span class="dash-dot"></span>Area of recent activity</button>
         <button type="button" class="legend-toggle" id="legendToggle" aria-expanded="false" style="color:var(--muted);font-size:12px">More ▾</button>
       </div>
     </div>
@@ -181,6 +211,23 @@ ol.evlist li.enter{animation:slidein .6s ease-out both}
       <span class="pill off" id="livePill"><i></i><span id="liveTxt">Loading</span></span>
       <span id="updated">—</span>
     </div>
+    <section class="box controls" aria-label="Alert settings">
+      <div class="ctlrow">
+        <button type="button" class="btn" id="alertBtn" aria-pressed="false">🔔 Sound &amp; notifications off</button>
+        <button type="button" class="btn me" id="meBtn" aria-pressed="false">📍 Use my location</button>
+      </div>
+      <div class="ctlrow">
+        <label for="recentSel">Recent means last</label>
+        <select id="recentSel"><option value="1">1 hour</option><option value="3">3 hours</option><option value="6" selected>6 hours</option><option value="12">12 hours</option><option value="24">24 hours</option></select>
+        <label for="watchSel">· Warn within</label>
+        <select id="watchSel"><option value="10">10 km</option><option value="25" selected>25 km</option><option value="50">50 km</option><option value="0">anywhere</option></select>
+      </div>
+      <div class="ctlrow">
+        <label for="refSel">Measure distances from</label>
+        <select id="refSel"><option value="bey">Beirut airport (BEY)</option><option value="beirut">Beirut city</option><option value="me" disabled>My location</option></select>
+      </div>
+    </section>
+    <section class="box"><h3>Latest Alerts</h3><ol class="feed" id="feed"></ol><p class="sub">Newest first across all days. Red times are within your "recent" window.</p></section>
     <div class="live">
       <div class="daysel"><label for="day">Day</label><select id="day"></select></div>
       <button type="button" class="iconbtn" id="playBtn" aria-label="Replay the day" title="Replay the day">▶</button>
@@ -193,8 +240,9 @@ ol.evlist li.enter{animation:slidein .6s ease-out both}
       <div class="tl-row"><input type="range" id="tl" min="0" max="0" value="0" aria-label="Timeline position"><span class="t" id="tlT">All day</span></div>
       <p class="sub">Drag to see events build up through the day. Events without a reported time sit at the start.</p>
     </section>
+    <section class="box"><h3>Activity by Hour <span style="font:500 12px var(--mono);color:var(--muted)">(Lebanon time)</span></h3><div class="hours" id="hours" role="img" aria-label="Reports per hour"></div><div class="hlabels"><span>00:00</span><span>06:00</span><span>12:00</span><span>23:00</span></div><p class="sub" id="hoursNote"></p></section>
     <section class="box"><h3>Key Takeaways</h3><ul class="takeaways" id="takeaways"></ul></section>
-    <section class="box"><h3>Distance from Beirut Airport (BEY)</h3><div class="dist" id="dist"></div><p class="sub">Straight-line distance. Driving distance is usually 15–30% longer.</p></section>
+    <section class="box"><h3 id="distTitle">Distance from Beirut Airport (BEY)</h3><div class="dist" id="dist"></div><p class="sub">Straight-line distance. Driving distance is usually 15–30% longer.</p></section>
     <section class="srcs" id="srcs"></section>
     <p class="sub">Not an official warning system. Updated hourly from news reports; can lag real events. Follow official and embassy alerts.</p>
   </aside>
@@ -203,10 +251,28 @@ ol.evlist li.enter{animation:slidein .6s ease-out both}
 <script>
 (() => {
 const BEY={lat:33.8209,lng:35.4884}, BEIRUT={lat:33.8938,lng:35.5018};
-const CITIES=[["Tripoli",34.4367,35.8497],["Beirut",33.8938,35.5018],["Sidon",33.5571,35.3729],["Tyre",33.2705,35.2038]];
+// [name, lat, lng, rank] — rank 1 always labelled, 2 from zoom 9, 3 from zoom 10
+const CITIES=[
+ ["Beirut",33.8938,35.5018,1],["Tripoli",34.4367,35.8497,1],["Sidon",33.5571,35.3729,1],["Tyre",33.2705,35.2038,1],["Zahle",33.8467,35.9020,1],["Baalbek",34.0047,36.2110,1],["Nabatieh",33.3772,35.4836,1],
+ ["Jounieh",33.9808,35.6178,2],["Byblos",34.1230,35.6519,2],["Batroun",34.2553,35.6581,2],["Halba",34.5428,36.0797,2],["Hermel",34.3942,36.3847,2],["Marjayoun",33.3603,35.5919,2],["Bint Jbeil",33.1197,35.4331,2],["Jezzine",33.5419,35.5847,2],["Chtaura",33.8140,35.8530,2],["Dahieh",33.8500,35.5100,2],["Damour",33.7300,35.4520,2],["Aley",33.8100,35.6000,2],["Rashaya",33.5000,35.8440,2],["Hasbaya",33.3980,35.6850,2],["Naqoura",33.1180,35.1390,2],
+ ["Baabda",33.8339,35.5442,3],["Broummana",33.8820,35.6200,3],["Zgharta",34.3970,35.8950,3],["Bsharri",34.2510,36.0110,3],["Chekka",34.3290,35.7300,3],["Qlayaa",33.3370,35.5670,3],["Khiam",33.3279,35.6120,3],["Tebnine",33.1960,35.4140,3],["Qana",33.2090,35.2990,3],["Ghazieh",33.5190,35.3690,3],["Joun",33.5870,35.4540,3],["Beiteddine",33.6950,35.5790,3],["Barja",33.6470,35.4470,3],["Mashghara",33.5340,35.6400,3],["Kfarchouba",33.3290,35.7070,3],["Rmeish",33.0800,35.3710,3],["Aitaroun",33.1170,35.4670,3]
+];
 const TYPE_HEX={air:"#ff4d4d",artillery:"#ffd21f",other:"#d86cf2"};
 const TYPE_NAME={air:"Aerial attack",artillery:"Artillery bombardment",other:"Reported activity"};
 const $=s=>document.querySelector(s);
+/* Lebanon-local date/time -> Date (handles summer/winter offset) */
+function beirutDate(date,time){
+  const guess=new Date(`${date}T${time||"12:00"}:00Z`);
+  const parts=new Intl.DateTimeFormat("en-US",{timeZone:"Asia/Beirut",hourCycle:"h23",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"}).formatToParts(guess).reduce((a,p)=>(a[p.type]=p.value,a),{});
+  const asLocal=Date.UTC(+parts.year,+parts.month-1,+parts.day,+parts.hour,+parts.minute);
+  return new Date(guess.getTime()-(asLocal-guess.getTime()));
+}
+/* When did it happen? reported time first, else when it was added to the map */
+function evWhen(e){if(e._when!==undefined)return e._when;let t=null;if(e.time&&e.date)t=beirutDate(e.date,e.time);else if(e.addedAt)t=new Date(e.addedAt);if(t&&isNaN(t))t=null;return e._when=t;}
+function ageH(e){const t=evWhen(e);return t?(Date.now()-t)/36e5:Infinity;}
+const isRecent=e=>ageH(e)<=state.recentH;
+function rel(t){if(!t)return "time n/a";const m=Math.round((Date.now()-t)/6e4);if(m<1)return "just now";if(m<60)return m+" min ago";const h=Math.floor(m/60);if(h<24)return h+"h "+(m%60?String(m%60).padStart(2,"0")+"m ":"")+"ago";const d=Math.round(h/24);return d+"d ago";}
+function lebClock(t){return t?t.toLocaleTimeString("en-GB",{timeZone:"Asia/Beirut",hour:"2-digit",minute:"2-digit"}):"";}
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function km(a,b){const R=6371,r=Math.PI/180,dLa=(b.lat-a.lat)*r,dLo=(b.lng-a.lng)*r;const h=Math.sin(dLa/2)**2+Math.cos(a.lat*r)*Math.cos(b.lat*r)*Math.sin(dLo/2)**2;return 2*R*Math.asin(Math.sqrt(h));}
 function bearing(a,b){const r=Math.PI/180,y=Math.sin((b.lng-a.lng)*r)*Math.cos(b.lat*r),x=Math.cos(a.lat*r)*Math.sin(b.lat*r)-Math.sin(a.lat*r)*Math.cos(b.lat*r)*Math.cos((b.lng-a.lng)*r);return ["north","northeast","east","southeast","south","southwest","west","northwest"][Math.round(((Math.atan2(y,x)/r+360)%360)/45)%8];}
@@ -215,7 +281,11 @@ function ago(iso){const m=Math.round((Date.now()-new Date(iso))/60000);if(isNaN(
 function tween(el,to){const from=+el.dataset.v||0;el.dataset.v=to;if(from===to){el.textContent=to;return;}const t0=performance.now();const step=t=>{const p=Math.min(1,(t-t0)/700);el.textContent=Math.round(from+(to-from)*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(step);};requestAnimationFrame(step);}
 const keyOf=d=>d.lat.toFixed(3)+","+d.lng.toFixed(3);
 
-const state={events:[],days:{},updatedAt:null,day:null,filters:{air:true,artillery:true,other:true},layers:{ranges:true,ring:true},cut:Infinity,sel:null,first:true,seen:null};
+const state={events:[],days:{},updatedAt:null,day:null,filters:{air:true,artillery:true,other:true},layers:{ranges:false,ring:true},cut:Infinity,sel:null,first:true,seen:null,recentH:6,watchKm:25,ref:"bey",me:null,alerts:false};
+const prefs=(()=>{try{return JSON.parse(localStorage.getItem("lebmap-prefs")||"{}");}catch{return {};}})();
+Object.assign(state,{recentH:prefs.recentH??6,watchKm:prefs.watchKm??25,ref:prefs.ref==="me"?"bey":(prefs.ref||"bey")});
+function savePrefs(){try{localStorage.setItem("lebmap-prefs",JSON.stringify({recentH:state.recentH,watchKm:state.watchKm,ref:state.ref}));}catch{}}
+function REF(){if(state.ref==="me"&&state.me)return {...state.me,name:"your location",short:"you"};if(state.ref==="beirut")return {...BEIRUT,name:"Beirut city",short:"Beirut"};return {...BEY,name:"BEY airport",short:"BEY"};}
 
 /* ---- map ---- */
 const map=L.map("map",{zoomControl:false,attributionControl:true,worldCopyJump:false}).setView([33.75,35.75],9);
@@ -229,7 +299,9 @@ $("#zfit").onclick=e=>{e.preventDefault();fitActivity();};
 $("#zall").onclick=e=>{e.preventDefault();map.flyToBounds([[33.05,35.1],[34.7,36.62]],{duration:.9});};
 
 const gRanges=L.layerGroup().addTo(map), gRing=L.layerGroup().addTo(map), gArc=L.layerGroup().addTo(map), gEv=L.layerGroup().addTo(map), gFixed=L.layerGroup().addTo(map);
-CITIES.forEach(([n,lat,lng])=>L.marker([lat,lng],{icon:L.divIcon({className:"",html:'<div class="city-ic"></div>',iconSize:[10,10]}),keyboard:false,interactive:false}).bindTooltip(n,{permanent:true,direction:"right",className:"lbl",offset:[6,0]}).addTo(gFixed));
+const cityMarkers=CITIES.map(([n,lat,lng,r])=>{const m=L.marker([lat,lng],{icon:L.divIcon({className:"",html:`<div class="city-ic r${r}"></div>`,iconSize:[10,10]}),keyboard:false,interactive:false});m.bindTooltip(n,{permanent:true,direction:"right",className:"lbl",offset:[6,0]});m._rank=r;return m;});
+function updateCities(){const z=map.getZoom();cityMarkers.forEach(m=>{const show=m._rank===1||(m._rank===2&&z>=9)||(m._rank===3&&z>=10);if(show&&!gFixed.hasLayer(m))m.addTo(gFixed);else if(!show&&gFixed.hasLayer(m))gFixed.removeLayer(m);});}
+map.on("zoomend",updateCities);updateCities();
 const beyMarker=L.marker([BEY.lat,BEY.lng],{icon:L.divIcon({className:"",html:'<div class="bey-ic">✈</div>',iconSize:[26,26]}),zIndexOffset:500,title:"Beirut–Rafic Hariri International Airport"}).addTo(gFixed);
 beyMarker.bindTooltip("BEY Airport",{permanent:true,direction:"left",className:"lbl",offset:[-12,0]});
 beyMarker.on("click",()=>openPopup({...BEY,place:"Beirut–Rafic Hariri Intl (BEY)",airport:true,evs:[]}));
@@ -251,12 +323,12 @@ function renderMap(){
     const k=keyOf(g);const types=[...new Set(g.evs.map(e=>e.type||"other"))];const main=types.includes("air")?"air":types[0];
     const second=types.find(t=>t!==main);
     const bg=second?`linear-gradient(90deg,${TYPE_HEX[main]} 50%,${TYPE_HEX[second]} 50%)`:TYPE_HEX[main];
-    const isNew=g.evs.some(e=>e._new);
-    const html=`<div class="mk${isNew?" new":""}${state.sel&&keyOf(state.sel)===k?" sel":""}" data-key="${k}"><span class="p" style="border-color:${TYPE_HEX[main]}"></span><span class="p p2" style="border-color:${TYPE_HEX[main]}"></span><span class="core" style="background:${bg}"></span></div>`;
+    const isNew=g.evs.some(e=>e._new);const recent=g.evs.some(isRecent);
+    const html=`<div class="mk${isNew?" new":""}${recent?"":" old"}${state.sel&&keyOf(state.sel)===k?" sel":""}" data-key="${k}"><span class="p" style="border-color:${TYPE_HEX[main]}"></span><span class="p p2" style="border-color:${TYPE_HEX[main]}"></span><span class="core" style="background:${bg}"></span></div>`;
     let m=markers.get(k);
     const icon=L.divIcon({className:"",html,iconSize:[18,18]});
-    if(!m){m=L.marker([g.lat,g.lng],{icon,title:g.place,riseOnHover:true}).addTo(gEv);m.bindTooltip(g.place,{direction:"right",className:"lbl",offset:[8,0]});markers.set(k,m);}
-    else m.setIcon(icon);
+    if(!m){m=L.marker([g.lat,g.lng],{icon,title:g.place,riseOnHover:true,zIndexOffset:recent?400:0}).addTo(gEv);m.bindTooltip(g.place,{direction:"right",className:"lbl",offset:[8,0]});markers.set(k,m);}
+    else{m.setIcon(icon);m.setZIndexOffset(recent?400:0);}
     m._g=g;m.off("click").on("click",()=>openPopup(m._g));
     m.off("mouseover").on("mouseover",()=>highlight(m._g)).off("mouseout").on("mouseout",()=>highlight(null));
   });
@@ -264,12 +336,12 @@ function renderMap(){
 }
 function updateLabels(){const z=map.getZoom();for(const m of markers.values()){const t=m.getTooltip();if(!t)continue;t.options.permanent=z>=11;m.closeTooltip();if(z>=11)m.openTooltip();}}
 map.on("zoomend",updateLabels);
-function drawRing(evs){gRing.clearLayers();const s=evs.filter(e=>e.lat<33.5);if(!state.layers.ring||s.length<3)return;const c={lat:s.reduce((a,e)=>a+e.lat,0)/s.length,lng:s.reduce((a,e)=>a+e.lng,0)/s.length};const r=Math.max(...s.map(e=>km(c,e)))*1000+4000;L.circle([c.lat,c.lng],{radius:r,color:"#ff6b6b",weight:1.6,dashArray:"6 6",fillColor:"#ff5252",fillOpacity:.07,interactive:false,className:"act-ring"}).addTo(gRing);}
+function drawRing(evs){gRing.clearLayers();const s=evs.filter(isRecent);if(!state.layers.ring||s.length<3)return;const c={lat:s.reduce((a,e)=>a+e.lat,0)/s.length,lng:s.reduce((a,e)=>a+e.lng,0)/s.length};const r=Math.max(...s.map(e=>km(c,e)))*1000+4000;L.circle([c.lat,c.lng],{radius:r,color:"#ff6b6b",weight:1.6,dashArray:"6 6",fillColor:"#ff5252",fillOpacity:.07,interactive:false,className:"act-ring"}).addTo(gRing);}
 function highlight(g){
   gArc.clearLayers();
   document.querySelectorAll("#listAir button,#listArt button,#listOther button").forEach(b=>b.classList.toggle("hl",!!g&&b.dataset.key===keyOf(g)));
   const tgt=g||state.sel;if(!tgt||tgt.airport)return;
-  const a=[BEY.lat,BEY.lng],b=[tgt.lat,tgt.lng];const pts=[];
+  const R0=REF();const a=[R0.lat,R0.lng],b=[tgt.lat,tgt.lng];const pts=[];
   const mx=(a[0]+b[0])/2+(b[1]-a[1])*.25,my=(a[1]+b[1])/2-(b[0]-a[0])*.25;
   for(let t=0;t<=1.0001;t+=.05)pts.push([(1-t)**2*a[0]+2*(1-t)*t*mx+t*t*b[0],(1-t)**2*a[1]+2*(1-t)*t*my+t*t*b[1]]);
   L.polyline(pts,{color:"#2f8cff",weight:2,dashArray:"5 5",interactive:false,className:"arc"}).addTo(gArc);
@@ -282,7 +354,7 @@ function openPopup(d){
   if(d.airport){const evs=visibleEvents();const near=evs.length?evs.map(e=>({...e,dd:km(BEY,e)})).reduce((a,b)=>a.dd<b.dd?a:b):null;
     body=`<div class="sub2">Beirut's only commercial airport</div><div class="facts"><span>Reports this day</span><span>${evs.length}</span><span>Within 25 km</span><span>${evs.filter(e=>km(BEY,e)<=25).length}</span>${near?`<span>Closest</span><span>${esc(near.place)} · ${Math.round(near.dd)} km</span>`:""}</div>`;}
   else{const items=d.evs.slice().sort((a,b)=>timeKey(a)-timeKey(b)).map(e=>{const t=e.type||"other";return `<li><span class="dot" style="background:${TYPE_HEX[t]}"></span><div><b>${TYPE_NAME[t]}</b>${e.time?` · ${esc(e.time)}`:""}${e.note?`<br><span class="k">${esc(e.note)}</span>`:""}${e.sourceUrl?`<br><a href="${esc(e.sourceUrl)}" target="_blank" rel="noopener">${esc(e.source||"Source")} ↗</a>`:e.source?`<br><span class="k">Source: ${esc(e.source)}</span>`:""}</div></li>`;}).join("");
-    body=`<div class="sub2">${fmtDate(state.day)}</div><ul>${items}</ul><div class="facts"><span>From BEY airport</span><span>≈${Math.round(km(BEY,d))} km ${bearing(BEY,d)}</span><span>From Beirut city</span><span>≈${Math.round(km(BEIRUT,d))} km</span><span>Coordinates</span><span>${d.lat.toFixed(3)}, ${d.lng.toFixed(3)}</span></div>`;}
+    body=`<div class="sub2">${fmtDate(state.day)}</div><ul>${items}</ul><div class="facts">${state.ref==="me"&&state.me?`<span>From you</span><span>≈${Math.round(km(state.me,d))} km ${bearing(state.me,d)}</span>`:""}<span>From BEY airport</span><span>≈${Math.round(km(BEY,d))} km ${bearing(BEY,d)}</span><span>From Beirut city</span><span>≈${Math.round(km(BEIRUT,d))} km</span><span>Reported</span><span>${d.evs.map(evWhen).filter(Boolean).length?rel(new Date(Math.max(...d.evs.map(evWhen).filter(Boolean)))):"time n/a"}</span><span>Coordinates</span><span>${d.lat.toFixed(3)}, ${d.lng.toFixed(3)}</span></div>`;}
   L.popup({autoPanPaddingTopLeft:[10,120],maxWidth:300}).setLatLng([d.lat,d.lng]).setContent(`<div class="pp"><h4>${esc(d.place)}</h4>${body}</div>`).openOn(map);
   if(!d.airport){map.flyTo([d.lat,d.lng],Math.max(map.getZoom(),11),{duration:.8});const b=document.querySelector(`.evlist button[data-key="${keyOf(d)}"]`);if(b){b.scrollIntoView({block:"nearest",behavior:"smooth"});}}
   highlight(null);renderMarkSel();
@@ -305,17 +377,20 @@ function renderPanel(){
   fillList($("#listAir"),by("air"));fillList($("#listArt"),by("artillery"));fillList($("#listOther"),by("other"));
   $("#boxOther").hidden=n.other===0;
   const tk=[];
-  if(evs.length){const w=evs.map(e=>({...e,d:km(BEY,e)}));const near=w.reduce((a,b)=>a.d<b.d?a:b),far=w.reduce((a,b)=>a.d>b.d?a:b);const n25=w.filter(e=>e.d<=25).length;
-    tk.push(`Closest reported location to BEY airport: <b>${esc(near.place)}</b>, about <b>${Math.round(near.d)} km</b> ${bearing(BEY,near)}.`);
+  const R0=REF();
+  if(evs.length){const w=evs.map(e=>({...e,d:km(R0,e)}));const near=w.reduce((a,b)=>a.d<b.d?a:b),far=w.reduce((a,b)=>a.d>b.d?a:b);const n25=w.filter(e=>e.d<=25).length;
+    tk.push(`Closest reported location to ${R0.name}: <b>${esc(near.place)}</b>, about <b>${Math.round(near.d)} km</b> ${bearing(R0,near)}.`);const nr=evs.filter(isRecent).length;tk.push(nr?`<b>${nr}</b> report${nr>1?"s":""} in the last ${state.recentH} h (pulsing on the map).`:`Nothing reported in the last ${state.recentH} h on this day.`);
     tk.push(`<b>${w.filter(e=>e.lat<33.45).length} of ${w.length}</b> reports are in southern Lebanon.`);
-    tk.push(n25?`<b>${n25}</b> report${n25>1?"s are":" is"} within 25 km of the airport.`:`No listed location is within 25 km of the airport. Reported activity spans ${Math.round(near.d)}–${Math.round(far.d)} km away.`);}
+    tk.push(n25?`<b>${n25}</b> report${n25>1?"s are":" is"} within 25 km of ${R0.name}.`:`No listed location is within 25 km of ${R0.name}. Reported activity spans ${Math.round(near.d)}–${Math.round(far.d)} km away.`);}
   else tk.push("No reports for the selected filters.");
   (dd.takeaways||[]).forEach(t=>tk.push(esc(t)));
   $("#takeaways").innerHTML=tk.map(t=>`<li>${t}</li>`).join("");
-  const groups=groupByPlace(evs).map(g=>({...g,d:km(BEY,g)})).sort((a,b)=>a.d-b.d);const max=Math.max(1,...groups.map(g=>g.d));
-  $("#dist").innerHTML=groups.map(g=>{const t=g.evs.some(e=>e.type==="air")?"air":g.evs[0].type||"other";return `<div class="drow" data-key="${keyOf(g)}"><div><div>Beirut → ${esc(g.place)}</div><div class="bar"><i style="width:0;background:${TYPE_HEX[t]}" data-w="${(g.d/max*100).toFixed(1)}"></i></div></div><span class="v">≈${Math.round(g.d)} km</span></div>`;}).join("")||'<div class="empty">Nothing to show.</div>';
+  $("#distTitle").textContent="Distance from "+(state.ref==="me"&&state.me?"You":state.ref==="beirut"?"Beirut City":"Beirut Airport (BEY)");
+  const groups=groupByPlace(evs).map(g=>({...g,d:km(R0,g)})).sort((a,b)=>a.d-b.d);const max=Math.max(1,...groups.map(g=>g.d));
+  $("#dist").innerHTML=groups.map(g=>{const t=g.evs.some(e=>e.type==="air")?"air":g.evs[0].type||"other";return `<div class="drow" data-key="${keyOf(g)}"><div><div>${R0.short} → ${esc(g.place)}</div><div class="bar"><i style="width:0;background:${TYPE_HEX[t]}" data-w="${(g.d/max*100).toFixed(1)}"></i></div></div><span class="v">≈${Math.round(g.d)} km</span></div>`;}).join("")||'<div class="empty">Nothing to show.</div>';
   requestAnimationFrame(()=>document.querySelectorAll("#dist .bar i").forEach(i=>i.style.width=i.dataset.w+"%"));
   document.querySelectorAll("#dist .drow").forEach((r,i)=>{const g=groups[i];r.onmouseenter=()=>highlight(g);r.onmouseleave=()=>highlight(null);r.onclick=()=>selectPlace(g);});
+  renderHours(all);renderFeed();
   const srcs=[...new Map(all.filter(e=>e.sourceUrl).map(e=>[e.sourceUrl,e.source||e.sourceUrl])).entries()];
   const plain=[...new Set(all.filter(e=>!e.sourceUrl&&e.source).map(e=>e.source))];
   $("#srcs").innerHTML=(srcs.length||plain.length)?"<b>Sources:</b> "+[...srcs.map(([u,n])=>`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(n)}</a>`),...plain.map(esc)].join(" · "):"";
@@ -323,9 +398,69 @@ function renderPanel(){
 function fillList(ol,evs){
   const prev=new Set([...ol.querySelectorAll("li")].map(li=>li.dataset.id));
   const sorted=evs.slice().sort((a,b)=>timeKey(a)-timeKey(b));
-  ol.innerHTML=sorted.map(e=>{const d=km(BEY,e);return `<li data-id="${esc(e.id)}" class="${(!state.first&&!prev.has(e.id))||e._new?"enter":""}"><button type="button" data-key="${keyOf(e)}"><span class="nm">${esc(e.place)}<small>${e.time?esc(e.time)+" · ":""}${esc(e.note||Math.round(d)+" km "+bearing(BEY,e)+" of BEY airport")}</small></span><span class="km">≈${Math.round(d)} km</span></button></li>`;}).join("")||'<li class="empty">None reported</li>';
+  const R0=REF();ol.innerHTML=sorted.map(e=>{const d=km(R0,e);return `<li data-id="${esc(e.id)}" class="${(!state.first&&!prev.has(e.id))||e._new?"enter":""}"><button type="button" data-key="${keyOf(e)}"><span class="nm">${esc(e.place)}<small>${e.time?esc(e.time)+" · ":""}${esc(e.note||Math.round(d)+" km "+bearing(R0,e)+" of "+R0.name)}</small></span><span class="km">≈${Math.round(d)} km</span></button></li>`;}).join("")||'<li class="empty">None reported</li>';
   ol.querySelectorAll("button").forEach((b,i)=>{const e=sorted[i];b.onmouseenter=()=>highlight(e);b.onmouseleave=()=>highlight(null);b.onclick=()=>selectPlace(e);});
 }
+
+/* ---- latest alerts feed ---- */
+let lastFeedIds=new Set();
+function renderFeed(){
+  const R0=REF();
+  const list=state.events.filter(e=>state.filters[e.type||"other"]!==false).slice().sort((a,b)=>(evWhen(b)||new Date(b.date+"T00:00:00Z"))-(evWhen(a)||new Date(a.date+"T00:00:00Z"))).slice(0,20);
+  const ol=$("#feed");
+  ol.innerHTML=list.map(e=>{const t=evWhen(e),rc=isRecent(e),d=Math.round(km(R0,e));return `<li class="${rc?"recent":""}${!lastFeedIds.has(e.id)&&lastFeedIds.size?" flash":""}"><button type="button" data-id="${esc(e.id)}"><span class="fdot" style="background:${TYPE_HEX[e.type||"other"]}"></span><span class="fn">${esc(e.place)}${rc?'<span class="tag">RECENT</span>':""}<small>${TYPE_NAME[e.type||"other"]} · ${d} km from ${esc(R0.short)}</small></span><span class="ft">${t?rel(t)+"<br>"+lebClock(t):esc(e.date)}</span></button></li>`;}).join("")||'<li class="empty">No reports yet.</li>';
+  lastFeedIds=new Set(list.map(e=>e.id));
+  ol.querySelectorAll("button").forEach(b=>b.onclick=()=>{const e=state.events.find(x=>x.id===b.dataset.id);if(!e)return;if(e.date!==state.day){state.day=e.date;$("#day").value=e.date;setupTimeline();render(false);}selectPlace(e);});
+}
+/* ---- activity by hour ---- */
+function renderHours(all){
+  const c=new Array(24).fill(0);let untimed=0;
+  all.forEach(e=>{const t=evWhen(e);if(!t){untimed++;return;}const h=+t.toLocaleString("en-GB",{timeZone:"Asia/Beirut",hour:"2-digit",hourCycle:"h23"});c[h]++;});
+  const max=Math.max(1,...c);
+  const today=new Date().toLocaleDateString("en-CA",{timeZone:"Asia/Beirut"});
+  const nowH=+new Date().toLocaleString("en-GB",{timeZone:"Asia/Beirut",hour:"2-digit",hourCycle:"h23"});
+  $("#hours").innerHTML=c.map((n,h)=>`<i class="${n?"on":""}${state.day===today&&h===nowH?" now":""}" style="height:${Math.max(3,n/max*100)}%" title="${String(h).padStart(2,"0")}:00 — ${n} report${n===1?"":"s"}"></i>`).join("");
+  $("#hoursNote").textContent=untimed?`${untimed} report${untimed>1?"s":""} this day had no time given and aren't shown in the chart.`:"";
+}
+/* ---- sound + notifications ---- */
+let actx=null;
+function siren(close){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const o=actx.createOscillator(),g=actx.createGain();o.type="sine";o.connect(g);g.connect(actx.destination);const t=actx.currentTime,reps=close?4:2;for(let i=0;i<reps;i++){o.frequency.setValueAtTime(880,t+i*.5);o.frequency.linearRampToValueAtTime(1320,t+i*.5+.25);o.frequency.linearRampToValueAtTime(880,t+i*.5+.5);}g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.25,t+.05);g.gain.setValueAtTime(.25,t+reps*.5-.1);g.gain.exponentialRampToValueAtTime(.0001,t+reps*.5);o.start(t);o.stop(t+reps*.5+.05);}catch{}}
+function setAlertBtn(){const b=$("#alertBtn");b.setAttribute("aria-pressed",state.alerts);b.textContent=state.alerts?"🔔 Sound & notifications on":"🔕 Sound & notifications off";}
+$("#alertBtn").onclick=async()=>{
+  state.alerts=!state.alerts;setAlertBtn();
+  if(state.alerts){siren(false);if("Notification" in window&&Notification.permission==="default"){try{await Notification.requestPermission();}catch{}}}
+};
+function notifyNew(fresh){
+  const R0=REF();
+  const close=state.watchKm>0?fresh.filter(e=>km(R0,e)<=state.watchKm):fresh;
+  const pick=(close[0]||fresh[fresh.length-1]);
+  const d=Math.round(km(R0,pick));
+  const msg=`${TYPE_NAME[pick.type||"other"]} · ${pick.place} · ${d} km from ${R0.short}${fresh.length>1?` (+${fresh.length-1} more)`:""}`;
+  toast((close.length&&state.watchKm>0?"⚠ Within "+state.watchKm+" km: ":"New: ")+msg,pick.type);
+  if(!state.alerts)return;
+  if(state.watchKm===0||close.length)siren(close.length>0&&state.watchKm>0);
+  if("Notification" in window&&Notification.permission==="granted"&&(state.watchKm===0||close.length)){try{new Notification(close.length&&state.watchKm>0?`Within ${state.watchKm} km of ${R0.name}`:"New report in Lebanon",{body:msg,icon:"icon-192.png",tag:"lebmap-"+pick.id});}catch{}}
+}
+/* ---- my location ---- */
+let meMarker=null,meWatch=null,meRing=null;
+$("#meBtn").onclick=()=>{
+  const b=$("#meBtn");
+  if(meWatch!==null){navigator.geolocation.clearWatch(meWatch);meWatch=null;state.me=null;if(meMarker){map.removeLayer(meMarker);map.removeLayer(meRing);meMarker=meRing=null;}b.setAttribute("aria-pressed","false");b.textContent="📍 Use my location";$('#refSel option[value="me"]').disabled=true;if(state.ref==="me"){state.ref="bey";$("#refSel").value="bey";}render(false);return;}
+  if(!("geolocation" in navigator)){toast("Location isn't available in this browser.","other");return;}
+  b.textContent="📍 Finding you…";
+  meWatch=navigator.geolocation.watchPosition(p=>{
+    const first=!state.me;state.me={lat:p.coords.latitude,lng:p.coords.longitude};
+    if(!meMarker){meMarker=L.marker([state.me.lat,state.me.lng],{icon:L.divIcon({className:"",html:'<div class="me-ic"></div>',iconSize:[18,18]}),zIndexOffset:900,title:"You"}).addTo(map).bindTooltip("You",{permanent:true,direction:"right",className:"lbl",offset:[10,0]});meRing=L.circle([state.me.lat,state.me.lng],{radius:(state.watchKm||25)*1000,color:"#2f8cff",weight:1.5,dashArray:"4 6",fillOpacity:.04,interactive:false}).addTo(map);}
+    else{meMarker.setLatLng([state.me.lat,state.me.lng]);meRing.setLatLng([state.me.lat,state.me.lng]);}
+    b.setAttribute("aria-pressed","true");b.textContent="📍 Using my location";$('#refSel option[value="me"]').disabled=false;
+    if(first){state.ref="me";$("#refSel").value="me";render(false);map.flyTo([state.me.lat,state.me.lng],Math.max(map.getZoom(),9),{duration:.9});}
+  },err=>{meWatch!==null&&navigator.geolocation.clearWatch(meWatch);meWatch=null;b.setAttribute("aria-pressed","false");b.textContent="📍 Use my location";toast(err.code===1?"Location permission was denied. Allow it in your browser settings to use this.":"Couldn't get your location.","other");},{enableHighAccuracy:false,maximumAge:120000,timeout:20000});
+};
+$("#recentSel").value=String(state.recentH);$("#watchSel").value=String(state.watchKm);$("#refSel").value=state.ref;
+$("#recentSel").onchange=e=>{state.recentH=+e.target.value;savePrefs();render(false);};
+$("#watchSel").onchange=e=>{state.watchKm=+e.target.value;savePrefs();if(meRing)meRing.setRadius((state.watchKm||25)*1000);};
+$("#refSel").onchange=e=>{state.ref=e.target.value;savePrefs();render(false);};
+setAlertBtn();
 
 /* ---- timeline / filters / day ---- */
 const tl=$("#tl");
@@ -360,9 +495,10 @@ async function load(){
   refreshDays();
   if(first||wasDay!==state.day)setupTimeline();else{const t=[...new Set(dayEvents().map(timeKey))].sort((a,b)=>a-b);tl._t=t;tl.max=t.length;if(state.cut===Infinity)tl.value=t.length;}
   render(first);state.first=false;setLive();
-  if(fresh.length){const f=fresh[fresh.length-1];toast(`New report: ${TYPE_NAME[f.type||"other"]} · ${f.place}${fresh.length>1?` (+${fresh.length-1} more)`:""}`,f.type);setTimeout(()=>{state.events.forEach(e=>e._new=false);renderMap();},9000);}
+  if(fresh.length){notifyNew(fresh);setTimeout(()=>{state.events.forEach(e=>e._new=false);renderMap();},9000);}
 }
-drawRanges();load();setInterval(load,60000);setInterval(setLive,30000);
+drawRanges();load();setInterval(load,60000);let recentSig="";
+setInterval(()=>{setLive();if(!state.day)return;renderFeed();const sig=state.events.filter(isRecent).map(e=>e.id).join();if(sig!==recentSig){recentSig=sig;render(false);}},30000);
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)load();});
 })();
 </script>
