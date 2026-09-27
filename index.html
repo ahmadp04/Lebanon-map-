@@ -21,7 +21,7 @@
   color-scheme: dark;
   --ink:#e8eef5; --muted:#9fb0c3; --faint:#62748a;
   --panel:#0c1624; --panel-2:#101d2f; --line:#24364d; --line-2:#34506f;
-  --air:#ff4d4d; --art:#ffd21f; --other:#d86cf2; --bey:#2f8cff; --live:#35d07f;
+  --air:#ff4d4d; --art:#ffd21f; --other:#d86cf2; --drone:#4dd4ff; --bey:#2f8cff; --live:#35d07f;
   --display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
   --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
@@ -139,6 +139,15 @@ ol.evlist li.enter{animation:slidein .6s ease-out both}
 
 .mk.old{opacity:.55}.mk.old .p{display:none}.mk.old .core{width:14px;height:14px;inset:2px;border-width:1.5px}
 .mk.old.dim{opacity:.2}
+.orbit{position:absolute;left:50%;top:50%;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;border:1.5px dashed #4dd4ffaa;pointer-events:none;animation:orbit 9s linear infinite}
+.orbit .drone{position:absolute;left:50%;top:-9px;width:18px;height:18px;margin-left:-9px;filter:drop-shadow(0 0 3px #000) drop-shadow(0 0 6px #4dd4ff88)}
+.orbit.o2{width:40px;height:40px;margin:-20px 0 0 -20px;animation-duration:6s;animation-direction:reverse;border-color:#4dd4ff55}
+.orbit.o2 .drone{transform:scaleX(-1)}
+.mk.old .orbit{animation:none;opacity:.5}
+.mk.old .orbit.o2{display:none}
+.mk.droneonly .core{width:10px;height:10px;inset:4px;border-width:1.5px}
+@keyframes orbit{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.orbit{animation:none}}
 .me-ic{width:18px;height:18px;border-radius:50%;background:#2f8cff;border:3px solid #fff;box-shadow:0 0 0 6px #2f8cff44,0 0 10px #000a}
 .city-ic.r2{width:8px;height:8px}.city-ic.r3{width:6px;height:6px;border-width:1.5px}
 .controls{display:grid;gap:8px}
@@ -196,6 +205,7 @@ ol.evlist li.enter{animation:slidein .6s ease-out both}
       <div class="card legend" id="legend">
         <button type="button" data-type="air" aria-pressed="true"><span class="dot" style="background:var(--air)"></span>Aerial attack (<span data-c="air">0</span>)</button>
         <button type="button" data-type="artillery" aria-pressed="true"><span class="dot" style="background:var(--art)"></span>Artillery bombardment (<span data-c="artillery">0</span>)</button>
+        <button type="button" data-type="drone" aria-pressed="true"><span class="dot" style="background:var(--drone)"></span>Drone overflight reported (<span data-c="drone">0</span>)</button>
         <button type="button" class="opt" data-type="other" aria-pressed="true"><span class="dot" style="background:var(--other)"></span>Other reported activity (<span data-c="other">0</span>)</button>
         <button type="button" class="opt" data-layer="ranges" aria-pressed="false"><span class="dot" style="background:var(--bey)"></span>Distance rings from BEY airport</button>
         <button type="button" class="opt" data-layer="ring" aria-pressed="true"><span class="dash-dot"></span>Area of recent activity</button>
@@ -234,6 +244,7 @@ ol.evlist li.enter{animation:slidein .6s ease-out both}
     </div>
     <section class="box air"><h2><span class="dot" style="background:var(--air)"></span>Aerial Attacks<span class="count" id="cAir">0</span></h2><ol class="evlist" id="listAir"></ol></section>
     <section class="box art"><h2><span class="dot" style="background:var(--art)"></span>Artillery Bombardment<span class="count" id="cArt">0</span></h2><ol class="evlist" id="listArt"></ol></section>
+    <section class="box" id="boxDrone" style="border-color:#1f4f63" hidden><h2 style="color:var(--drone)"><span class="dot" style="background:var(--drone)"></span>Drone Activity<span class="count" id="cDrone">0</span></h2><ol class="evlist" id="listDrone"></ol><p class="sub">Areas where drones were reported flying overhead. Not live drone positions: surveillance drones don't broadcast their location.</p></section>
     <section class="box other" id="boxOther" hidden><h2><span class="dot" style="background:var(--other)"></span>Other Reported<span class="count" id="cOther">0</span></h2><ol class="evlist" id="listOther"></ol></section>
     <section class="box">
       <h3>Timeline</h3>
@@ -257,8 +268,9 @@ const CITIES=[
  ["Jounieh",33.9808,35.6178,2],["Byblos",34.1230,35.6519,2],["Batroun",34.2553,35.6581,2],["Halba",34.5428,36.0797,2],["Hermel",34.3942,36.3847,2],["Marjayoun",33.3603,35.5919,2],["Bint Jbeil",33.1197,35.4331,2],["Jezzine",33.5419,35.5847,2],["Chtaura",33.8140,35.8530,2],["Dahieh",33.8500,35.5100,2],["Damour",33.7300,35.4520,2],["Aley",33.8100,35.6000,2],["Rashaya",33.5000,35.8440,2],["Hasbaya",33.3980,35.6850,2],["Naqoura",33.1180,35.1390,2],
  ["Baabda",33.8339,35.5442,3],["Broummana",33.8820,35.6200,3],["Zgharta",34.3970,35.8950,3],["Bsharri",34.2510,36.0110,3],["Chekka",34.3290,35.7300,3],["Qlayaa",33.3370,35.5670,3],["Khiam",33.3279,35.6120,3],["Tebnine",33.1960,35.4140,3],["Qana",33.2090,35.2990,3],["Ghazieh",33.5190,35.3690,3],["Joun",33.5870,35.4540,3],["Beiteddine",33.6950,35.5790,3],["Barja",33.6470,35.4470,3],["Mashghara",33.5340,35.6400,3],["Kfarchouba",33.3290,35.7070,3],["Rmeish",33.0800,35.3710,3],["Aitaroun",33.1170,35.4670,3]
 ];
-const TYPE_HEX={air:"#ff4d4d",artillery:"#ffd21f",other:"#d86cf2"};
-const TYPE_NAME={air:"Aerial attack",artillery:"Artillery bombardment",other:"Reported activity"};
+const TYPE_HEX={air:"#ff4d4d",artillery:"#ffd21f",drone:"#4dd4ff",other:"#d86cf2"};
+const TYPE_NAME={air:"Aerial attack",artillery:"Artillery bombardment",drone:"Drone overflight reported",other:"Reported activity"};
+const DRONE_SVG='<svg class="drone" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4dd4ff" stroke="#fff" stroke-width=".8" d="M21 12 17 10.6V10l-4.2-.3L10 3H8.6l1.3 6.6L6 9.4 4.6 7.5H3.4l.7 3.8L2.5 12l1.6.7-.7 3.8h1.2L6 14.6l3.9-.2L8.6 21H10l2.8-6.7L17 14v-.6z"/></svg>';
 const $=s=>document.querySelector(s);
 /* Lebanon-local date/time -> Date (handles summer/winter offset) */
 function beirutDate(date,time){
@@ -281,7 +293,7 @@ function ago(iso){const m=Math.round((Date.now()-new Date(iso))/60000);if(isNaN(
 function tween(el,to){const from=+el.dataset.v||0;el.dataset.v=to;if(from===to){el.textContent=to;return;}const t0=performance.now();const step=t=>{const p=Math.min(1,(t-t0)/700);el.textContent=Math.round(from+(to-from)*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(step);};requestAnimationFrame(step);}
 const keyOf=d=>d.lat.toFixed(3)+","+d.lng.toFixed(3);
 
-const state={events:[],days:{},updatedAt:null,day:null,filters:{air:true,artillery:true,other:true},layers:{ranges:false,ring:true},cut:Infinity,sel:null,first:true,seen:null,recentH:6,watchKm:25,ref:"bey",me:null,alerts:false};
+const state={events:[],days:{},updatedAt:null,day:null,filters:{air:true,artillery:true,drone:true,other:true},layers:{ranges:false,ring:true},cut:Infinity,sel:null,first:true,seen:null,recentH:6,watchKm:25,ref:"bey",me:null,alerts:false};
 const prefs=(()=>{try{return JSON.parse(localStorage.getItem("lebmap-prefs")||"{}");}catch{return {};}})();
 Object.assign(state,{recentH:prefs.recentH??6,watchKm:prefs.watchKm??25,ref:prefs.ref==="me"?"bey":(prefs.ref||"bey")});
 function savePrefs(){try{localStorage.setItem("lebmap-prefs",JSON.stringify({recentH:state.recentH,watchKm:state.watchKm,ref:state.ref}));}catch{}}
@@ -320,11 +332,16 @@ function renderMap(){
   const keep=new Set(groups.map(keyOf));
   for(const [k,m] of markers)if(!keep.has(k)){gEv.removeLayer(m);markers.delete(k);}
   groups.forEach(g=>{
-    const k=keyOf(g);const types=[...new Set(g.evs.map(e=>e.type||"other"))];const main=types.includes("air")?"air":types[0];
+    const k=keyOf(g);const all=[...new Set(g.evs.map(e=>e.type||"other"))];
+    const hasDrone=all.includes("drone");const types=all.filter(t=>t!=="drone");const droneOnly=!types.length;if(droneOnly)types.push("drone");
+    const main=types.includes("air")?"air":types[0];
     const second=types.find(t=>t!==main);
+    const droneRecent=g.evs.some(e=>e.type==="drone"&&isRecent(e));
+    const orbit=hasDrone?`<span class="orbit">${DRONE_SVG}</span>${droneRecent?`<span class="orbit o2">${DRONE_SVG}</span>`:""}`:"";
     const bg=second?`linear-gradient(90deg,${TYPE_HEX[main]} 50%,${TYPE_HEX[second]} 50%)`:TYPE_HEX[main];
     const isNew=g.evs.some(e=>e._new);const recent=g.evs.some(isRecent);
-    const html=`<div class="mk${isNew?" new":""}${recent?"":" old"}${state.sel&&keyOf(state.sel)===k?" sel":""}" data-key="${k}"><span class="p" style="border-color:${TYPE_HEX[main]}"></span><span class="p p2" style="border-color:${TYPE_HEX[main]}"></span><span class="core" style="background:${bg}"></span></div>`;
+    const pulse=droneOnly?"":`<span class="p" style="border-color:${TYPE_HEX[main]}"></span><span class="p p2" style="border-color:${TYPE_HEX[main]}"></span>`;
+    const html=`<div class="mk${isNew?" new":""}${recent?"":" old"}${droneOnly?" droneonly":""}${state.sel&&keyOf(state.sel)===k?" sel":""}" data-key="${k}">${orbit}${pulse}<span class="core" style="background:${bg}"></span></div>`;
     let m=markers.get(k);
     const icon=L.divIcon({className:"",html,iconSize:[18,18]});
     if(!m){m=L.marker([g.lat,g.lng],{icon,title:g.place,riseOnHover:true,zIndexOffset:recent?400:0}).addTo(gEv);m.bindTooltip(g.place,{direction:"right",className:"lbl",offset:[8,0]});markers.set(k,m);}
@@ -336,10 +353,10 @@ function renderMap(){
 }
 function updateLabels(){const z=map.getZoom();for(const m of markers.values()){const t=m.getTooltip();if(!t)continue;t.options.permanent=z>=11;m.closeTooltip();if(z>=11)m.openTooltip();}}
 map.on("zoomend",updateLabels);
-function drawRing(evs){gRing.clearLayers();const s=evs.filter(isRecent);if(!state.layers.ring||s.length<3)return;const c={lat:s.reduce((a,e)=>a+e.lat,0)/s.length,lng:s.reduce((a,e)=>a+e.lng,0)/s.length};const r=Math.max(...s.map(e=>km(c,e)))*1000+4000;L.circle([c.lat,c.lng],{radius:r,color:"#ff6b6b",weight:1.6,dashArray:"6 6",fillColor:"#ff5252",fillOpacity:.07,interactive:false,className:"act-ring"}).addTo(gRing);}
+function drawRing(evs){gRing.clearLayers();const s=evs.filter(e=>e.type!=="drone"&&isRecent(e));if(!state.layers.ring||s.length<3)return;const c={lat:s.reduce((a,e)=>a+e.lat,0)/s.length,lng:s.reduce((a,e)=>a+e.lng,0)/s.length};const r=Math.max(...s.map(e=>km(c,e)))*1000+4000;L.circle([c.lat,c.lng],{radius:r,color:"#ff6b6b",weight:1.6,dashArray:"6 6",fillColor:"#ff5252",fillOpacity:.07,interactive:false,className:"act-ring"}).addTo(gRing);}
 function highlight(g){
   gArc.clearLayers();
-  document.querySelectorAll("#listAir button,#listArt button,#listOther button").forEach(b=>b.classList.toggle("hl",!!g&&b.dataset.key===keyOf(g)));
+  document.querySelectorAll("#listAir button,#listArt button,#listDrone button,#listOther button").forEach(b=>b.classList.toggle("hl",!!g&&b.dataset.key===keyOf(g)));
   const tgt=g||state.sel;if(!tgt||tgt.airport)return;
   const R0=REF();const a=[R0.lat,R0.lng],b=[tgt.lat,tgt.lng];const pts=[];
   const mx=(a[0]+b[0])/2+(b[1]-a[1])*.25,my=(a[1]+b[1])/2-(b[0]-a[0])*.25;
@@ -369,11 +386,11 @@ function renderPanel(){
   const all=dayEvents(),evs=visibleEvents(),by=t=>evs.filter(e=>(e.type||"other")===t);
   const dd=state.days[state.day]||{};
   $("#title").textContent="Locations from "+fmtDate(state.day);
-  const n={air:all.filter(e=>e.type==="air").length,artillery:all.filter(e=>e.type==="artillery").length,other:all.filter(e=>!["air","artillery"].includes(e.type)).length};
+  const n={air:all.filter(e=>e.type==="air").length,artillery:all.filter(e=>e.type==="artillery").length,drone:all.filter(e=>e.type==="drone").length,other:all.filter(e=>!["air","artillery","drone"].includes(e.type)).length};
   if(dd.totalAlerts!=null)tween($("#sAlerts"),dd.totalAlerts);else $("#sAlerts").textContent="–";
   tween($("#sAir"),n.air);tween($("#sArt"),n.artillery);
   for(const t in n)document.querySelector(`[data-c="${t}"]`).textContent=n[t];
-  tween($("#cAir"),by("air").length);tween($("#cArt"),by("artillery").length);tween($("#cOther"),by("other").length);
+  tween($("#cAir"),by("air").length);tween($("#cArt"),by("artillery").length);tween($("#cOther"),by("other").length);tween($("#cDrone"),by("drone").length);fillList($("#listDrone"),by("drone"));$("#boxDrone").hidden=n.drone===0;
   fillList($("#listAir"),by("air"));fillList($("#listArt"),by("artillery"));fillList($("#listOther"),by("other"));
   $("#boxOther").hidden=n.other===0;
   const tk=[];
